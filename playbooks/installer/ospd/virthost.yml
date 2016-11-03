@@ -25,8 +25,24 @@
             name: ipxe-roms-qemu
         register: update
 
-- include: "undercloud-restore.yml"
-  when: "'undercloud' not in groups"
+- hosts: localhost
+  tasks:
+      - debug: var=groups
+
+      - debug: msg="Test quickstart skip"
+        when: "'undercloud' not in groups"
+
+- name: check virhost
+  hosts: virthost
+  tasks:
+      - debug: var=groups
+
+      - debug: msg="Test quickstart skip"
+        when: "'undercloud' not in groups"
+
+# todo()
+#- include: "undercloud-restore.yml"
+#  when:"'undercloud'' not in groups"
 
 # Dumping all facts for later use
 - name: Dumping facts from all nodes for later use
