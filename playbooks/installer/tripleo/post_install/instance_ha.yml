@@ -64,7 +64,7 @@
 - name: Set overcloud credentials
   hosts: controller[0]
   roles:
-      - {role: installer/ospd/overcloud/credentials, overcloudrc: "{{ inventory_dir }}/keystonerc" }
+      - {role: installer/tripleo/overcloud/credentials, overcloudrc: "{{ inventory_dir }}/keystonerc" }
 
 - name: Run setup as root, to get all Ansible facts
   hosts: controller

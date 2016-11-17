@@ -16,7 +16,7 @@
         rr_distro_version: "{{ hostvars[groups.undercloud[0]].ansible_distribution_version }}"
         mirror: "{{ installer.mirror | default(omit) }}"
 
-      - role: installer/ospd/undercloud
+      - role: installer/tripleo/undercloud
 
 - name: Preparing the images
   tags:
@@ -27,7 +27,7 @@
   become: yes
   become_user: "{{ installer.user.name }}"
   roles:
-      - {role: installer/ospd/images}
+      - {role: installer/tripleo/images}
 
 - name: Modify undercloud in case of virthost deployment
   tags: virthost
@@ -95,7 +95,7 @@
         when: not instack_file_path.stat.exists
 
   roles:
-      - {role: installer/ospd/overcloud/introspection, when: "installer.overcloud is defined"}
+      - {role: installer/tripleo/overcloud/introspection, when: "installer.overcloud is defined"}
   tasks:
       - name: get subnet ID to update neutron's DNS server
         shell: "source ~/stackrc; neutron subnet-list | grep '{{ undercloud_provision_cidr | ipsubnet }}' | awk '{print $2;}'"
@@ -115,7 +115,7 @@
   become: yes
   become_user: "{{ installer.user.name }}"
   roles:
-      - {role: installer/ospd/overcloud/tagging, when: "'overcloud_nodes' in groups"}
+      - {role: installer/tripleo/overcloud/tagging, when: "'overcloud_nodes' in groups"}
 
 - name: Prepare the overcloud configuration
   tags:
@@ -192,11 +192,11 @@
         include: undercloud-ext-vlan.yml
         when: "'virthost' not in groups"
   roles:
-      - {role: installer/ospd/overcloud/storage, when: "overcloud_deploy_script == '' and installer.storage.backend is defined and installer.storage.backend"}
-      - {role: installer/ospd/overcloud/network, when: "{{ (overcloud_deploy_script == '') }}" }
-      - {role: installer/ospd/overcloud/ssl, when: "overcloud_deploy_script == '' and installer.overcloud.ssl == 'yes'"}
-      - {role: installer/ospd/loadbalancer, when: "overcloud_deploy_script == '' and groups.loadbalancer is defined"}
-      - {role: installer/ospd/overcloud/hostname, when: "overcloud_deploy_script == ''" }
+      - {role: installer/tripleo/overcloud/storage, when: "overcloud_deploy_script == '' and installer.storage.backend is defined and installer.storage.backend"}
+      - {role: installer/tripleo/overcloud/network, when: "{{ (overcloud_deploy_script == '') }}" }
+      - {role: installer/tripleo/overcloud/ssl, when: "overcloud_deploy_script == '' and installer.overcloud.ssl == 'yes'"}
+      - {role: installer/tripleo/loadbalancer, when: "overcloud_deploy_script == '' and groups.loadbalancer is defined"}
+      - {role: installer/tripleo/overcloud/hostname, when: "overcloud_deploy_script == ''" }
 
   tasks:
       - block:
@@ -254,7 +254,7 @@
 # Since OSP-d reprovision our machines (overcloud) and becomes the DHCP server, an update of our inventory is required
 # So Ansible will be able to access the newly provisioned machines.
 # The inventory also gets updated when the deployment fails in order to be able to run log-collection
-- include: ospd_inventory_update.yml
+- include: tripleo_inventory_update.yml
   tags:
       - overcloud
       - inventory_update
