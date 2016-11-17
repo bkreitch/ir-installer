@@ -1,7 +1,7 @@
 ---
 subparsers:
-    ospd:
-        help: Installs openstack using OSP Director
+    tripleo:
+        help: Installs openstack using TripleO
         include_groups: ['Ansible options', 'Inventory hosts options', 'Common options', 'Configuration file options']
         groups:
             - title: Introspection
@@ -26,7 +26,7 @@ subparsers:
                       type: Value
                       help: |
                             The absolute path to the folder containing the templates of the overcloud deployment.
-                            Please see `settings/installer/ospd/deployment/example` as reference.
+                            Please see `settings/installer/tripleo/deployment/example` as reference.
                       required: yes
 
             - title: Product
@@ -34,7 +34,7 @@ subparsers:
                   product-version:
                       type: Value
                       help: The product version (product == director)
-                      choices: ["7", "8", "9", "10"]
+                      choices: ["7", "8", "9", "10", "kilo", "liberty", "mitaka", "newton"]
                       default: 9
 
                   product-build:

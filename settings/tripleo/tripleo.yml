@@ -1,8 +1,8 @@
 ---
 
 installer:
-    type: ospd
-    short_type: ospd
+    type: tripleo
+    short_type: tripleo
     product:
         rpm: "https://url.corp.redhat.com/rhos-release-latest-rpm"
     overcloud:
