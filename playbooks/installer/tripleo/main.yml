@@ -15,6 +15,11 @@
         core_build: "{{ installer.product.core.build }}"
         rr_distro_version: "{{ hostvars[groups.undercloud[0]].ansible_distribution_version }}"
         mirror: "{{ installer.mirror | default(omit) }}"
+        when: installer.product.type == 'rhos'
+
+      - role: installer/rdo-release
+        product_version: "{{ installer.product.version }}"
+        when: installer.product.type == 'rdo'
 
       - role: installer/tripleo/undercloud
 
