@@ -31,6 +31,12 @@ subparsers:
 
             - title: Product
               options:
+                  product-type:
+                      type: Value
+                      help: The product type
+                      choices: ["rhos", "rdo"]
+                      default: rhos
+
                   product-version:
                       type: Value
                       help: The product version (product == director)
